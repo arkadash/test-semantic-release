@@ -79,16 +79,33 @@ jobs:
                 ]
               }],
               ["@semantic-release/release-notes-generator", {
-                "preset": "angular",
+                "preset": "conventionalcommits",
+                "parserOpts": {
+                  "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
+                },
+                "writerOpts": {
+                  "commitsSort": ["subject", "scope"],
+                  "commitGroupsSort": ["title", "raw"],
+                  "noteGroupsSort": ["title", "raw"],
+                  "mainTemplate": "{{> header}}\n\n{{#each commitGroups}}\n\n{{#if title}}\n### {{title}}\n\n{{/if}}\n{{#each commits}}\n{{> commit root=@root}}\n{{/each}}\n{{/each}}\n\n{{> footer}}",
+                  "headerPartial": "## {{version}} ({{date}})",
+                  "commitPartial": "* {{#if scope}}**{{scope}}:** {{/if}}{{subject}} ({{shortHash}})",
+                  "footerPartial": "{{> footer}}"
+                },
                 "presetConfig": {
                   "types": [
-                    {"type": "feat", "section": "🚀 Features"},
-                    {"type": "fix", "section": "🐛 Bug Fixes"},
-                    {"type": "docs", "section": "📚 Documentation"},
-                    {"type": "perf", "section": "⚡️ Performance"},
-                    {"type": "refactor", "section": "♻️ Refactor"},
-                    {"type": "chore", "section": "🔧 Maintenance"},
-                    {"type": "*", "section": "Other Changes"}
+                    {"type": "feat", "section": "Features"},
+                    {"type": "fix", "section": "Bug Fixes"},
+                    {"type": "docs", "section": "Documentation"},
+                    {"type": "perf", "section": "Performance"},
+                    {"type": "refactor", "section": "Refactoring"},
+                    {"type": "build", "section": "Build"},
+                    {"type": "ci", "section": "CI/CD"},
+                    {"type": "chore", "section": "Chores"},
+                    {"type": "revert", "section": "Reverts"},
+                    {"type": "style", "section": "Styling"},
+                    {"type": "test", "section": "Tests"},
+                    {"type": "other", "section": "Other Changes"}
                   ]
                 }
               }],
