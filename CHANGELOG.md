@@ -1,3 +1,11 @@
+## [1.1.5](https://github.com/arkadash/test-semantic-release/compare/v1.1.4...v1.1.5) (2024-12-29)
+
+
+### conventionalcommits
+
+* Merge pull request #32 from arkadash/main ([](https://github.com/arkadash/test-semantic-release/commit/3a5da93)), closes [#32](https://github.com/arkadash/test-semantic-release/issues/32)
+* workflow name ([](https://github.com/arkadash/test-semantic-release/commit/9afc6a6))
+
 ## [1.1.4](https://github.com/arkadash/test-semantic-release/compare/v1.1.3...v1.1.4) (2024-12-29)
 
 
