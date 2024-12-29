@@ -82,13 +82,32 @@ jobs:
                 "preset": "conventionalcommits",
                 "presetConfig": {
                   "types": [
-                    {"type": "feat", "section": "Features"},
-                    {"type": "fix", "section": "Bug Fixes"},
-                    {"type": "docs", "section": "Documentation"},
-                    {"type": "perf", "section": "Performance"},
-                    {"type": "refactor", "section": "Refactoring"},
-                    {"type": "*", "section": "Other Changes"}
+                    {"type": "feat", "section": "✨ Features"},
+                    {"type": "fix", "section": "🐛 Bug Fixes"},
+                    {"type": "docs", "section": "📚 Documentation"},
+                    {"type": "perf", "section": "⚡ Performance"},
+                    {"type": "refactor", "section": "♻️ Refactoring"},
+                    {"type": "style", "section": "💄 Styling"},
+                    {"type": "test", "section": "🧪 Tests"},
+                    {"type": "chore", "section": "🔧 Chores"},
+                    {"type": "ci", "section": "👷 CI"},
+                    {"type": "revert", "section": "⏪ Reverts"},
+                    {"type": "", "section": "Changes", "hidden": false},
+                    {"type": "*", "section": "Misc Changes", "hidden": false}
                   ]
+                },
+                "writerOpts": {
+                  "groupBy": "type",
+                  "commitGroupsSort": "title",
+                  "commitsSort": ["subject"],
+                  "noteGroupsSort": "title",
+                  "transform": {
+                    "type": "conventionalcommits",
+                    "issuePrefixes": ["JIRA-"],
+                    "defaultType": "Changes",
+                    "defaultScope": "",
+                    "defaultSubject": "General updates"
+                  }
                 }
               }],
               ["@semantic-release/changelog", {
