@@ -1,3 +1,11 @@
+## [1.1.7](https://github.com/arkadash/test-semantic-release/compare/v1.1.6...v1.1.7) (2024-12-29)
+
+
+### Miscellaneous Changes
+
+* Merge pull request #37 from arkadash/main ([](https://github.com/arkadash/test-semantic-release/commit/bfee8b8)), closes [#37](https://github.com/arkadash/test-semantic-release/issues/37)
+* Update releases ([](https://github.com/arkadash/test-semantic-release/commit/88881c8))
+
 ## [1.1.6](https://github.com/arkadash/test-semantic-release/compare/v1.1.5...v1.1.6) (2024-12-29)
 
 
