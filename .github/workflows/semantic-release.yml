@@ -1,13 +1,14 @@
-name: Semantic Release
+["@semantic-release/npm", {
+                "npmPublish": false
+              }],name: Semantic Release
 
 on:
   push:
     branches:
       - production
     paths-ignore:
-      - 'CHANGELOG.md'
-      - 'package.json'
-      - 'package-lock.json'
+      - '**/CHANGELOG.md'
+      - '**/package*.json'  # This covers both package.json and package-lock.json in any directory
   workflow_dispatch:
 
 jobs:
@@ -42,6 +43,7 @@ jobs:
             @semantic-release/changelog@6.0.3 \
             @semantic-release/commit-analyzer@10.0.1 \
             @semantic-release/release-notes-generator@11.0.7 \
+            @semantic-release/npm@10.0.3 \
             conventional-changelog-conventionalcommits@6.1.0
 
       - name: Setup Git
@@ -101,7 +103,7 @@ jobs:
                 "addReleases": "bottom"
               }],
               ["@semantic-release/git", {
-                "assets": ["CHANGELOG.md", "package.json"],
+                "assets": ["CHANGELOG.md", "package.json", "package-lock.json"],
                 "message": "chore(release): \${nextRelease.version} [skip ci]\n\nJIRA Tickets: \${nextRelease.notes}"
               }]
             ]
