@@ -1,6 +1,6 @@
 ["@semantic-release/npm", {
-    "npmPublish": false
-}], name: Semantic Release
+                "npmPublish": false
+              }],name: Semantic Release
 
 on:
   push:
