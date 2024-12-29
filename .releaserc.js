@@ -5,8 +5,11 @@ module.exports = {
     ["@semantic-release/commit-analyzer", {
       preset: "angular",
       releaseRules: [
+        // Major version bump for breaking changes
         { breaking: true, release: "major" },
+        // Minor version bump for new features
         { type: "feat", release: "minor" },
+        // Patch version bump for bug fixes and other changes
         { type: "fix", release: "patch" },
         { type: "perf", release: "patch" },
         { type: "refactor", release: "patch" },
@@ -15,38 +18,46 @@ module.exports = {
         { type: "test", release: "patch" },
         { type: "chore", release: "patch" },
         { type: "ci", release: "patch" },
-        { type: "build", release: "patch" }
-      ],
-      fallbackRelease: "patch" // Always default to a patch release if no changes are found
+        { type: "build", release: "patch" },
+        // Always create a release if no other rules match
+        { release: "patch" },  // Default to patch release if no other match
+      ]
     }],
 
-    // Generate release notes
+    // Generate release notes based on commit messages
     ["@semantic-release/release-notes-generator", {
       preset: "conventionalcommits",
       writerOpts: {
         transform: (commit, context) => {
           const issues = [];
-          if (commit.scope === "*") {
-            commit.scope = "";
+
+          // Remove unnecessary commit scope
+          if (commit.scope === '*') {
+            commit.scope = '';
           }
-          if (typeof commit.hash === "string") {
+
+          // Shorten the commit hash to the first 7 characters
+          if (typeof commit.hash === 'string') {
             commit.hash = commit.hash.substring(0, 7);
           }
-          if (typeof commit.subject === "string") {
-            // Add issue references
+
+          // Add references for issues and JIRA tickets in commit messages
+          if (typeof commit.subject === 'string') {
             commit.subject = commit.subject.replace(/#([0-9]+)/g, (_, issue) => {
               issues.push(issue);
               return `[#${issue}](${context.repositoryUrl}/issues/${issue})`;
             });
-            // Add JIRA ticket references
             commit.subject = commit.subject.replace(/(NGTPA-\d+)/g, (_, issue) => {
               issues.push(issue);
               return `[${issue}](${context.repositoryUrl}/issues/${issue})`;
             });
           }
+
           commit.references = commit.references.filter(reference => {
             return issues.indexOf(reference.issue) === -1;
           });
+
+          // Transform commit type to more readable format
           switch (commit.type) {
             case "feat":
               commit.type = "✨ Features";
@@ -97,7 +108,7 @@ module.exports = {
 
     // Publish release on GitHub
     ["@semantic-release/github", {
-      assets: []
+      assets: []  // No assets to upload
     }],
 
     // Commit updated changelog and version files
