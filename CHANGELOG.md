@@ -1,3 +1,16 @@
+## [1.1.6](https://github.com/arkadash/test-semantic-release/compare/v1.1.5...v1.1.6) (2024-12-29)
+
+
+### Miscellaneous Changes
+
+* Merge pull request #36 from arkadash/main ([](https://github.com/arkadash/test-semantic-release/commit/d18692d)), closes [#36](https://github.com/arkadash/test-semantic-release/issues/36)
+* Update release rc ([](https://github.com/arkadash/test-semantic-release/commit/80d652d))
+* Merge pull request #35 from arkadash/main ([](https://github.com/arkadash/test-semantic-release/commit/6a51948)), closes [#35](https://github.com/arkadash/test-semantic-release/issues/35)
+* Merge pull request #34 from arkadash/production ([](https://github.com/arkadash/test-semantic-release/commit/24350dd)), closes [#34](https://github.com/arkadash/test-semantic-release/issues/34)
+* Update flow ([](https://github.com/arkadash/test-semantic-release/commit/09dc221))
+* Merge pull request #33 from arkadash/main ([](https://github.com/arkadash/test-semantic-release/commit/e355e8f)), closes [#33](https://github.com/arkadash/test-semantic-release/issues/33)
+* Update workflow ([](https://github.com/arkadash/test-semantic-release/commit/a2336a1))
+
 ## [1.1.5](https://github.com/arkadash/test-semantic-release/compare/v1.1.4...v1.1.5) (2024-12-29)
 
 
