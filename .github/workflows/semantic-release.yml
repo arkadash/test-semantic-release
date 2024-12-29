@@ -8,14 +8,14 @@ on:
       - 'CHANGELOG.md'
       - 'package.json'
       - 'package-lock.json'
+  workflow_dispatch:
 
 jobs:
   release:
-    if: |
-      (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)) &&
-      !contains(github.event.head_commit.message, 'chore(release)') &&
-      !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
     permissions:
       contents: write
       issues: write
@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "lts/*"
 
-      - name: Install dependencies
+      - name: Install semantic-release dependencies
         run: |
           npm install --save-dev \
             semantic-release \
@@ -62,27 +62,51 @@ jobs:
                   {"type": "fix", "release": "patch"},
                   {"type": "docs", "release": "patch"},
                   {"type": "perf", "release": "patch"},
-                  {"type": "refactor", "release": "patch"}
+                  {"type": "refactor", "release": "patch"},
+                  {"type": "chore", "release": "patch"},
+                  {"type": "style", "release": "patch"},
+                  {"type": "test", "release": "patch"},
+                  {"type": "ci", "release": "patch"},
+                  {"subject": "*", "release": "patch"}
                 ]
               }],
-              "@semantic-release/release-notes-generator",
+              ["@semantic-release/release-notes-generator", {
+                "preset": "conventionalcommits",
+                "presetConfig": {
+                  "types": [
+                    {"type": "feat", "section": "🚀 Features"},
+                    {"type": "fix", "section": "🐛 Bug Fixes"},
+                    {"type": "docs", "section": "📚 Documentation"},
+                    {"type": "perf", "section": "⚡️ Performance"},
+                    {"type": "refactor", "section": "♻️ Refactor"}
+                  ]
+                },
+                "writerOpts": {
+                  "transform": {
+                    "type": "conventionalcommits",
+                    "issuePrefixes": ["JIRA-"]
+                  }
+                }
+              }],
               ["@semantic-release/changelog", {
                 "changelogFile": "CHANGELOG.md"
               }],
               ["@semantic-release/github", {
                 "assets": [],
-                "successComment": "This PR is included in version \${nextRelease.version}",
+                "successComment": "🎉 This PR is included in version \${nextRelease.version}",
+                "releasedLabels": ["shipped"],
                 "addReleases": "bottom"
               }],
               ["@semantic-release/git", {
                 "assets": ["CHANGELOG.md", "package.json"],
-                "message": "chore(release): \${nextRelease.version} [skip ci]\n\n\${nextRelease.notes}"
+                "message": "chore(release): \${nextRelease.version} [skip ci]\n\nJIRA Tickets: \${nextRelease.notes}"
               }]
             ]
           }
           EOF
 
       - name: Release
+        id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_AUTHOR_NAME: 'github-actions[bot]'
