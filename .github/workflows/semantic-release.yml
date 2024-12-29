@@ -1,10 +1,6 @@
 name: Semantic Release
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - production
   push:
     branches:
       - production
@@ -16,9 +12,8 @@ on:
 jobs:
   release:
     if: |
-      github.event_name == 'pull_request' && 
-      github.event.pull_request.merged == true && 
-      !contains(github.event.head_commit.message, 'chore(release)') && 
+      (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)) &&
+      !contains(github.event.head_commit.message, 'chore(release)') &&
       !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     permissions:
