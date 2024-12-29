@@ -11,11 +11,11 @@
   "license": "ISC",
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/commit-analyzer": "^10.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.1.0",
-    "@semantic-release/release-notes-generator": "^14.0.2",
-    "conventional-changelog-conventionalcommits": "^8.0.0",
-    "semantic-release": "^21.1.2"
+    "@semantic-release/github": "^9.0.3",
+    "@semantic-release/release-notes-generator": "^11.0.7",
+    "conventional-changelog-conventionalcommits": "^6.1.0",
+    "semantic-release": "^21.0.1"
   }
 }
