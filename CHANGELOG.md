@@ -1,3 +1,15 @@
+## [1.1.4](https://github.com/arkadash/test-semantic-release/compare/v1.1.3...v1.1.4) (2024-12-29)
+
+
+### Features
+
+* test something ([e1a1ce9](https://github.com/arkadash/test-semantic-release/commit/e1a1ce922de5d6445372a14940acc96a5af42c1b))
+
+
+### Bug Fixes
+
+* workflow name ([25e70a6](https://github.com/arkadash/test-semantic-release/commit/25e70a6d2338450168de65c57a7a415d8a0daac0))
+
 ## [1.1.3](https://github.com/arkadash/test-semantic-release/compare/v1.1.2...v1.1.3) (2024-12-29)
 
 ## [1.1.2](https://github.com/arkadash/test-semantic-release/compare/v1.1.1...v1.1.2) (2024-12-29)
