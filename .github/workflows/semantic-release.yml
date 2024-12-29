@@ -36,13 +36,13 @@ jobs:
       - name: Install semantic-release dependencies
         run: |
           npm install --save-dev \
-            semantic-release \
-            @semantic-release/git \
-            @semantic-release/github \
-            @semantic-release/changelog \
-            @semantic-release/commit-analyzer \
-            @semantic-release/release-notes-generator \
-            conventional-changelog-conventionalcommits
+            semantic-release@21.0.1 \
+            @semantic-release/git@10.0.1 \
+            @semantic-release/github@9.0.3 \
+            @semantic-release/changelog@6.0.3 \
+            @semantic-release/commit-analyzer@10.0.1 \
+            @semantic-release/release-notes-generator@11.0.7 \
+            conventional-changelog-conventionalcommits@6.1.0
 
       - name: Setup Git
         run: |
@@ -87,21 +87,8 @@ jobs:
                     {"type": "docs", "section": "Documentation"},
                     {"type": "perf", "section": "Performance"},
                     {"type": "refactor", "section": "Refactoring"},
-                    {"type": "build", "section": "Build"},
-                    {"type": "ci", "section": "CI/CD"},
-                    {"type": "chore", "section": "Chores"},
-                    {"type": "revert", "section": "Reverts"},
-                    {"type": "style", "section": "Styling"},
-                    {"type": "test", "section": "Tests"},
                     {"type": "*", "section": "Other Changes"}
                   ]
-                },
-                "writerOpts": {
-                  "groupBy": "type",
-                  "commitGroupsSort": "title",
-                  "commitsSort": ["scope", "subject"],
-                  "noteGroupsSort": "title",
-                  "mainTemplate": "{{> header}}\n\n{{#each commitGroups}}\n\n{{#if title}}\n### {{title}}\n\n{{/if}}\n{{#each commits}}\n* {{#if scope}}**{{scope}}:** {{/if}}{{subject}} {{shortHash}}\n{{/each}}\n{{/each}}\n\n{{> footer}}"
                 }
               }],
               ["@semantic-release/changelog", {
