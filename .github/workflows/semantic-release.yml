@@ -4,32 +4,20 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - main  # or 'master' depending on your default branch
       - production
   push:
     branches:
-      - main
       - production
     paths-ignore:
       - 'CHANGELOG.md'
       - 'package.json'
 
 jobs:
-  verify:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Add your test steps here
-      # - name: Run tests
-      #   run: npm test
-
   release:
-    needs: verify
     if: |
-      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) &&
-      !contains(github.event.head_commit.message, 'chore(release)') &&
+      github.event_name == 'pull_request' && 
+      github.event.pull_request.merged == true && 
+      !contains(github.event.head_commit.message, 'chore(release)') && 
       !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     permissions:
@@ -70,7 +58,7 @@ jobs:
         run: |
           cat << EOF > .releaserc.json
           {
-            "branches": ["main", "production"],
+            "branches": ["production"],
             "plugins": [
               ["@semantic-release/commit-analyzer", {
                 "preset": "conventionalcommits",
