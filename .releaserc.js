@@ -5,11 +5,8 @@ module.exports = {
     ["@semantic-release/commit-analyzer", {
       preset: "angular",
       releaseRules: [
-        // Major version bump for breaking changes
         { breaking: true, release: "major" },
-        // Minor version bump for new features
         { type: "feat", release: "minor" },
-        // Patch version bump for bug fixes and other changes
         { type: "fix", release: "patch" },
         { type: "perf", release: "patch" },
         { type: "refactor", release: "patch" },
@@ -19,8 +16,7 @@ module.exports = {
         { type: "chore", release: "patch" },
         { type: "ci", release: "patch" },
         { type: "build", release: "patch" },
-        // Always create a release if no other rules match
-        { release: "patch" },  // Default to patch release if no other match
+        { release: "patch" } // Default to patch release if no other match
       ]
     }],
 
@@ -41,12 +37,17 @@ module.exports = {
             commit.hash = commit.hash.substring(0, 7);
           }
 
-          // Add references for issues and JIRA tickets in commit messages
+          // Modify the commit subject to remove "closes"
           if (typeof commit.subject === 'string') {
             commit.subject = commit.subject.replace(/#([0-9]+)/g, (_, issue) => {
               issues.push(issue);
               return `[#${issue}](${context.repositoryUrl}/issues/${issue})`;
             });
+
+            // Remove "closes" references to issues (no "closes" in the final text)
+            commit.subject = commit.subject.replace(/closes\s+#\d+/gi, '');
+
+            // Add JIRA ticket references
             commit.subject = commit.subject.replace(/(NGTPA-\d+)/g, (_, issue) => {
               issues.push(issue);
               return `[${issue}](${context.repositoryUrl}/issues/${issue})`;
