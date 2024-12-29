@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/arkadash/test-semantic-release/compare/v1.0.0...v1.1.0) (2024-12-29)
+
+
+### Bug Fixes
+
+* Update yml workflow ([809f724](https://github.com/arkadash/test-semantic-release/commit/809f72446a024c837d2f7340885d41579941a099))
+
+
+### Features
+
+* create new console ([f477e69](https://github.com/arkadash/test-semantic-release/commit/f477e695fcc0273b4e5277d27c0f2f37f412e39a))
+
 # 1.0.0 (2024-12-29)
 
 
