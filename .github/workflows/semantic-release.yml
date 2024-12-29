@@ -56,36 +56,40 @@ jobs:
             "branches": ["production"],
             "plugins": [
               ["@semantic-release/commit-analyzer", {
-                "preset": "conventionalcommits",
+                "preset": "angular",
+                "parserOpts": {
+                  "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
+                },
                 "releaseRules": [
+                  {"breaking": true, "release": "major"},
                   {"type": "feat", "release": "minor"},
                   {"type": "fix", "release": "patch"},
                   {"type": "docs", "release": "patch"},
                   {"type": "perf", "release": "patch"},
                   {"type": "refactor", "release": "patch"},
-                  {"type": "chore", "release": "patch"},
                   {"type": "style", "release": "patch"},
                   {"type": "test", "release": "patch"},
+                  {"type": "chore", "release": "patch"},
+                  {"type": "revert", "release": "patch"},
                   {"type": "ci", "release": "patch"},
-                  {"subject": "*", "release": "patch"}
+                  {"type": "build", "release": "patch"},
+                  {"scope": "*", "release": "patch"},
+                  {"subject": "*", "release": "patch"},
+                  {"message": "*", "release": "patch"}
                 ]
               }],
               ["@semantic-release/release-notes-generator", {
-                "preset": "conventionalcommits",
+                "preset": "angular",
                 "presetConfig": {
                   "types": [
                     {"type": "feat", "section": "🚀 Features"},
                     {"type": "fix", "section": "🐛 Bug Fixes"},
                     {"type": "docs", "section": "📚 Documentation"},
                     {"type": "perf", "section": "⚡️ Performance"},
-                    {"type": "refactor", "section": "♻️ Refactor"}
+                    {"type": "refactor", "section": "♻️ Refactor"},
+                    {"type": "chore", "section": "🔧 Maintenance"},
+                    {"type": "*", "section": "Other Changes"}
                   ]
-                },
-                "writerOpts": {
-                  "transform": {
-                    "type": "conventionalcommits",
-                    "issuePrefixes": ["JIRA-"]
-                  }
                 }
               }],
               ["@semantic-release/changelog", {
