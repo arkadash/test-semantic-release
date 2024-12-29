@@ -35,23 +35,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ ! -f package.json ]; then
-            echo '{
-              "name": "test-semantic-release",
-              "version": "1.0.0",
-              "private": true,
-              "devDependencies": {
-                "semantic-release": "^22.0.0",
-                "@semantic-release/git": "^10.0.0",
-                "@semantic-release/github": "^9.0.0",
-                "@semantic-release/changelog": "^6.0.0",
-                "@semantic-release/commit-analyzer": "^11.0.0",
-                "@semantic-release/release-notes-generator": "^12.0.0",
-                "conventional-changelog-conventionalcommits": "^7.0.0"
-              }
-            }' > package.json
-          fi
-          npm install
+          npm install --save-dev \
+            semantic-release \
+            @semantic-release/git \
+            @semantic-release/github \
+            @semantic-release/changelog \
+            @semantic-release/commit-analyzer \
+            @semantic-release/release-notes-generator \
+            conventional-changelog-conventionalcommits
 
       - name: Setup Git
         run: |
