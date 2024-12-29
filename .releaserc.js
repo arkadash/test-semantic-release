@@ -37,15 +37,19 @@ module.exports = {
             commit.hash = commit.hash.substring(0, 7);
           }
 
-          // Modify the commit subject to remove "closes"
+          // Modify the commit subject to remove "closes" and handle PR references
           if (typeof commit.subject === 'string') {
+            // Remove "closes" references to issues (no "closes" in the final text)
+            commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '');
+
+            // Remove the parentheses if the subject contains a reference
+            commit.subject = commit.subject.replace(/\s?\(\s*\)/g, '');
+
+            // Add issue references in square brackets
             commit.subject = commit.subject.replace(/#([0-9]+)/g, (_, issue) => {
               issues.push(issue);
               return `[#${issue}](${context.repositoryUrl}/issues/${issue})`;
             });
-
-            // Remove "closes" references to issues (no "closes" in the final text)
-            commit.subject = commit.subject.replace(/closes\s+#\d+/gi, '');
 
             // Add JIRA ticket references
             commit.subject = commit.subject.replace(/(NGTPA-\d+)/g, (_, issue) => {
