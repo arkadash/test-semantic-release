@@ -25,32 +25,23 @@ module.exports = {
         transform: (commit, context) => {
           const issues = [];
 
-          // Ensure commit properties exist
-          if (!commit || typeof commit !== 'object') {
-            return false; // Skip invalid commits
+          // Skip commits without a subject
+          if (!commit.subject || typeof commit.subject !== 'string') {
+            return false;
           }
 
           if (commit.hash) {
             commit.hash = commit.hash.substring(0, 7);
           }
 
-          if (commit.subject) {
-            // Remove issue references ("closes #number")
-            commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '');
+          // Remove issue references ("closes #number")
+          commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '');
 
-            // Remove empty parentheses
-            commit.subject = commit.subject.replace(/\s\(\)/g, '');
+          // Remove empty parentheses
+          commit.subject = commit.subject.replace(/\s\(\)/g, '');
 
-            // Clean up merge commit descriptions
-            commit.subject = commit.subject.replace(/merge branch '[^']*'|merge pull request #[^ ]* from .*/, '').trim();
-          } else {
-            commit.subject = 'No subject'; // Default for missing subjects
-          }
-
-          // Assign a default type if none exists
-          if (!commit.type) {
-            commit.type = "Miscellaneous Changes";
-          }
+          // Clean up merge commit descriptions
+          commit.subject = commit.subject.replace(/merge branch '[^']*'|merge pull request #[^ ]* from .*/, '').trim();
 
           // Transform commit type to a readable format
           switch (commit.type) {
