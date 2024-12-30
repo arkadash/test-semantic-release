@@ -39,6 +39,13 @@ module.exports = {
             commit.subject = commit.subject.replace(/\s\(\)/g, '');
           }
 
+          // Handle merge commits specifically
+          if (commit.type === null && /Merge pull request/.test(commit.subject)) {
+            commit.type = "Miscellaneous Changes";
+            commit.subject = commit.subject.replace(/Merge pull request #[0-9]+ from [^()]+/, '')
+                                           .trim();
+          }
+
           // Transform commit type to a readable format
           switch (commit.type) {
             case "feat":
