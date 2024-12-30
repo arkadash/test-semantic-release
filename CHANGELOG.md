@@ -1,3 +1,18 @@
+## [1.1.10](https://github.com/arkadash/test-semantic-release/compare/v1.1.9...v1.1.10) (2024-12-30)
+
+
+### Bug Fixes
+
+* aa ([](https://github.com/arkadash/test-semantic-release/commit/2469e9f))
+
+
+### Changes
+
+* Merge pull request #41 from arkadash/main ([](https://github.com/arkadash/test-semantic-release/commit/f852846)), closes [#41](https://github.com/arkadash/test-semantic-release/issues/41)
+* Merge pull request #40 from arkadash/main-test-transform ([](https://github.com/arkadash/test-semantic-release/commit/f629d79)), closes [#40](https://github.com/arkadash/test-semantic-release/issues/40)
+* stam commit ([](https://github.com/arkadash/test-semantic-release/commit/99ed3ba))
+* feat remove world ([](https://github.com/arkadash/test-semantic-release/commit/55d2e4b))
+
 ## [1.1.9](https://github.com/arkadash/test-semantic-release/compare/v1.1.8...v1.1.9) (2024-12-29)
 
 
