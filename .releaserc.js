@@ -25,6 +25,8 @@ module.exports = {
       preset: "conventionalcommits",
       writerOpts: {
         transform: (commit, context) => {
+          const issues = [];
+
           // Shorten the commit hash to the first 7 characters
           if (typeof commit.hash === 'string') {
             commit.hash = commit.hash.substring(0, 7);
@@ -35,16 +37,20 @@ module.exports = {
             // Remove issue references ("closes #number")
             commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '');
 
-            // Remove empty parentheses
-            commit.subject = commit.subject.replace(/\s\(\)/g, '');
+            // Remove parentheses around merge commit descriptions
+            commit.subject = commit.subject.replace(/merge branch '[^']*'|merge pull request #[^ ]* from .*/, '').trim();
           }
 
-          // Handle merge commits specifically
-          if (commit.type === null && /Merge pull request/.test(commit.subject)) {
-            commit.type = "Miscellaneous Changes";
-            commit.subject = commit.subject.replace(/Merge pull request #[0-9]+ from [^()]+/, '')
-                                           .trim();
-          }
+          // Handle merge commits or commits without a specific type
+          // if (!commit.type) {
+          //   if (/^Merge pull request/.test(commit.subject)) {
+          //     commit.type = "Miscellaneous Changes";
+          //     commit.subject = commit.subject.replace(/^Merge pull request #[0-9]+ from .+/, '').trim();
+          //   } else if (/^Merge branch/.test(commit.subject)) {
+          //     commit.type = "Miscellaneous Changes";
+          //     commit.subject = commit.subject.replace(/^Merge branch '[^']+'/, '').trim();
+          //   }
+          // }
 
           // Transform commit type to a readable format
           switch (commit.type) {
@@ -81,6 +87,9 @@ module.exports = {
             default:
               commit.type = "Miscellaneous Changes";
           }
+
+           // Remove empty parentheses
+            commit.subject = commit.subject.replace(/\s\(\)/g, '');
 
           return commit;
         },
