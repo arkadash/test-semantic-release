@@ -25,21 +25,16 @@ module.exports = {
         transform: (commit, context) => {
           const issues = [];
 
+           // If no subject exists, provide a default
+          if (!commit.subject || commit.subject.trim() === '') {
+            commit.subject = 'No subject';
+          }
+
           // Use the subject as-is unless changes are needed
           if (typeof commit.subject === 'string') {
-            // Remove issue references ("closes #number")
-            commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '').trim();
-
             // Remove empty parentheses
             commit.subject = commit.subject.replace(/\s\(\)/g, '').trim();
 
-            // Clean up merge commit descriptions
-            commit.subject = commit.subject.replace(/merge branch '[^']*'|merge pull request #[^ ]* from .*/, '').trim();
-          }
-
-          // If no subject exists, provide a default
-          if (!commit.subject || commit.subject.trim() === '') {
-            commit.subject = 'No subject';
           }
 
           // Transform commit type to a readable format
