@@ -1,3 +1,11 @@
+## [1.1.16](https://github.com/arkadash/test-semantic-release/compare/v1.1.15...v1.1.16) (2024-12-30)
+
+
+### Miscellaneous Changes
+
+* No subject ([](https://github.com/arkadash/test-semantic-release/commit/dc3faa1509674ec109b6d607c1e3931dcb14d1f7)), closes [#50](https://github.com/arkadash/test-semantic-release/issues/50)
+* No subject ([](https://github.com/arkadash/test-semantic-release/commit/f9bb514725d9fd5413ec968a8ff127f02434c23a))
+
 ## [1.1.15](https://github.com/arkadash/test-semantic-release/compare/v1.1.14...v1.1.15) (2024-12-30)
 
 
