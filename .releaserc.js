@@ -24,9 +24,6 @@ module.exports = {
 
           // Simplify commit subjects and remove issue references
           if (typeof commit.subject === 'string') {
-            // Remove "closes" references
-            commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '');
-
             // Format commit message (remove extra information)
             commit.subject = commit.subject.replace(/(.*?)(?=\s+\(\w+\))/, '$1');
           }
