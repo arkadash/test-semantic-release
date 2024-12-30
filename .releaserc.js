@@ -1,7 +1,6 @@
 module.exports = {
   branches: ["production"],
   plugins: [
-    // Analyze commits to determine the version bump
     ["@semantic-release/commit-analyzer", {
       preset: "angular",
       releaseRules: [
@@ -16,41 +15,42 @@ module.exports = {
         { type: "chore", release: "patch" },
         { type: "ci", release: "patch" },
         { type: "build", release: "patch" },
-        { release: "patch" } // Default to patch release if no other match
+        { release: "patch" }
       ]
     }],
 
-    // Generate release notes based on commit messages
     ["@semantic-release/release-notes-generator", {
       preset: "conventionalcommits",
       writerOpts: {
         transform: (commit, context) => {
           const issues = [];
 
-          // Shorten the commit hash to the first 7 characters
-          if (typeof commit.hash === 'string') {
+          // Ensure commit properties exist
+          if (!commit || typeof commit !== 'object') {
+            return false; // Skip invalid commits
+          }
+
+          if (commit.hash) {
             commit.hash = commit.hash.substring(0, 7);
           }
 
-          // Clean up commit subject
-          if (typeof commit.subject === 'string') {
+          if (commit.subject) {
             // Remove issue references ("closes #number")
             commit.subject = commit.subject.replace(/closes?\s*#\d+/gi, '');
 
-            // Remove parentheses around merge commit descriptions
+            // Remove empty parentheses
+            commit.subject = commit.subject.replace(/\s\(\)/g, '');
+
+            // Clean up merge commit descriptions
             commit.subject = commit.subject.replace(/merge branch '[^']*'|merge pull request #[^ ]* from .*/, '').trim();
+          } else {
+            commit.subject = 'No subject'; // Default for missing subjects
           }
 
-          // Handle merge commits or commits without a specific type
-          // if (!commit.type) {
-          //   if (/^Merge pull request/.test(commit.subject)) {
-          //     commit.type = "Miscellaneous Changes";
-          //     commit.subject = commit.subject.replace(/^Merge pull request #[0-9]+ from .+/, '').trim();
-          //   } else if (/^Merge branch/.test(commit.subject)) {
-          //     commit.type = "Miscellaneous Changes";
-          //     commit.subject = commit.subject.replace(/^Merge branch '[^']+'/, '').trim();
-          //   }
-          // }
+          // Assign a default type if none exists
+          if (!commit.type) {
+            commit.type = "Miscellaneous Changes";
+          }
 
           // Transform commit type to a readable format
           switch (commit.type) {
@@ -88,9 +88,6 @@ module.exports = {
               commit.type = "Miscellaneous Changes";
           }
 
-           // Remove empty parentheses
-            commit.subject = commit.subject.replace(/\s\(\)/g, '');
-
           return commit;
         },
         groupBy: "type",
@@ -100,17 +97,14 @@ module.exports = {
       }
     }],
 
-    // Generate or update the changelog file
     ["@semantic-release/changelog", {
       changelogFile: "CHANGELOG.md"
     }],
 
-    // Publish release on GitHub
     ["@semantic-release/github", {
-      assets: [] // No assets to upload
+      assets: []
     }],
 
-    // Commit updated changelog and version files
     ["@semantic-release/git", {
       assets: ["CHANGELOG.md", "package.json", "package-lock.json"],
       message: "chore(release): v${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
