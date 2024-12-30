@@ -25,10 +25,14 @@ module.exports = {
         transform: (commit, context) => {
           const issues = [];
 
-           // If no subject exists, provide a default
-          if (!commit.subject || commit.subject.trim() === '') {
-            commit.subject = 'No subject';
+         // If commit.subject is empty, fallback to the full commit message or a default value
+          if (!commit.subject || commit.subject.trim() === "") {
+            commit.subject = commit.message || "No description provided";
           }
+
+          // Optionally, clean up the subject further (e.g., remove "closes" or empty parentheses)
+          commit.subject = commit.subject.replace(/\s\(\)/g, '').trim();
+
 
           // Use the subject as-is unless changes are needed
           if (typeof commit.subject === 'string') {
