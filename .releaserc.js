@@ -1,84 +1,53 @@
+const commitTypeMap = {
+  feat: "Features",
+  fix: "Bug Fixes",
+  perf: "Performance Improvements",
+  refactor: "Refactoring",
+  docs: "Documentation",
+  style: "Code Style Changes",
+  test: "Tests",
+  chore: "Chores",
+  ci: "Continuous Integration",
+  build: "Build System"
+};
+
+const releaseRules = [
+  { breaking: true, release: "major" },
+  { type: "feat", release: "minor" },
+  ...["fix", "perf", "refactor", "docs", "style", "test", "chore", "ci", "build"]
+    .map(type => ({ type, release: "patch" })),
+  { release: "patch" }
+];
+
+const transformCommit = (commit, context) => {
+  // Handle empty or missing subject
+  if (!commit.subject?.trim()) {
+    commit.subject = commit.message || "No description provided";
+  }
+
+  // Clean up subject by removing empty parentheses
+  if (typeof commit.subject === 'string') {
+    commit.subject = commit.subject.replace(/\s\(\)/g, '').trim();
+  }
+
+  // Transform commit type using the mapping
+  commit.type = commitTypeMap[commit.type] || "Miscellaneous Changes";
+
+  return commit;
+};
+
 module.exports = {
   branches: ["production"],
   plugins: [
     ["@semantic-release/commit-analyzer", {
       preset: "angular",
-      releaseRules: [
-        { breaking: true, release: "major" },
-        { type: "feat", release: "minor" },
-        { type: "fix", release: "patch" },
-        { type: "perf", release: "patch" },
-        { type: "refactor", release: "patch" },
-        { type: "docs", release: "patch" },
-        { type: "style", release: "patch" },
-        { type: "test", release: "patch" },
-        { type: "chore", release: "patch" },
-        { type: "ci", release: "patch" },
-        { type: "build", release: "patch" },
-        { release: "patch" }
-      ]
+      releaseRules
     }],
 
     ["@semantic-release/release-notes-generator", {
       preset: "conventionalcommits",
       writerOpts: {
-        transform: (commit, context) => {
-          const issues = [];
-
-         // If commit.subject is empty, fallback to the full commit message or a default value
-          if (!commit.subject || commit.subject.trim() === "") {
-            commit.subject = commit.message || "No description provided";
-          }
-
-          // Optionally, clean up the subject further (e.g., remove "closes" or empty parentheses)
-          commit.subject = commit.subject.replace(/\s\(\)/g, '').trim();
-
-
-          // Use the subject as-is unless changes are needed
-          if (typeof commit.subject === 'string') {
-            // Remove empty parentheses
-            commit.subject = commit.subject.replace(/\s\(\)/g, '').trim();
-
-          }
-
-          // Transform commit type to a readable format
-          switch (commit.type) {
-            case "feat":
-              commit.type = "Features";
-              break;
-            case "fix":
-              commit.type = "Bug Fixes";
-              break;
-            case "perf":
-              commit.type = "Performance Improvements";
-              break;
-            case "refactor":
-              commit.type = "Refactoring";
-              break;
-            case "docs":
-              commit.type = "Documentation";
-              break;
-            case "style":
-              commit.type = "Code Style Changes";
-              break;
-            case "test":
-              commit.type = "Tests";
-              break;
-            case "chore":
-              commit.type = "Chores";
-              break;
-            case "ci":
-              commit.type = "Continuous Integration";
-              break;
-            case "build":
-              commit.type = "Build System";
-              break;
-            default:
-              commit.type = "Miscellaneous Changes";
-          }
-
-          return commit;
-        },
+        transform: transformCommit,
         groupBy: "type",
         commitGroupsSort: "title",
         commitsSort: ["scope", "subject"],
