@@ -1,3 +1,5 @@
+## [1.1.14](https://github.com/arkadash/test-semantic-release/compare/v1.1.13...v1.1.14) (2024-12-30)
+
 ## [1.1.13](https://github.com/arkadash/test-semantic-release/compare/v1.1.12...v1.1.13) (2024-12-30)
 
 
